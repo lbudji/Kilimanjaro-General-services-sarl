@@ -24,6 +24,8 @@
     <link
             href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Marcellus:wght@400&display=swap"
             rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
 
     <!-- Fichiers CSS Externes -->
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
@@ -51,7 +53,7 @@
         <nav id="navmenu" class="navmenu">
             <ul>
                 <li>
-                    <a href="index.html" class="active">
+                    <a href="index.html">
                         <i class="bi bi-house-door me-2"></i>Home
                     </a>
                 </li>
@@ -82,8 +84,8 @@
                 </li>
             </ul>
             <!-- Mobile Navigation Toggle Button -->
-            <div class="btn mobile-nav-toggle d-xl-none"  aria-label="Toggle navigation"
-                    onclick="this.classList.toggle('open')">
+            <div class="btn mobile-nav-toggle d-xl-none" aria-label="Toggle navigation"
+                 onclick="this.classList.toggle('open')">
                 <i class="bi bi-list icon-open fs-2 text-green"></i>
                 <i class="bi bi-x icon-close fs-2 text-green d-none"></i>
             </div>
@@ -95,8 +97,8 @@
             <!-- Language Switcher -->
             <div class="language-switcher me-3">
                 <select id="language-select" class="form-select form-select-sm">
-                    <option value="en" selected>English</option>
-                    <option value="fr">Français</option>
+                    <option value="en" selected> 🇬🇧English</option>
+                    <option value="fr"> 🇫🇷Français</option>
                 </select>
             </div>
             <!-- Theme Toggle Button -->
@@ -194,7 +196,7 @@
             </a>
 
             <ol class="carousel-indicators">
-                <li data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active"></li>
+                <li data-bs-target="#hero-carousel" data-bs-slide-to="0"></li>
                 <li data-bs-target="#hero-carousel" data-bs-slide-to="1"></li>
                 <li data-bs-target="#hero-carousel" data-bs-slide-to="2"></li>
                 <li data-bs-target="#hero-carousel" data-bs-slide-to="3"></li>
@@ -505,21 +507,20 @@
     <!-- /About 3 Section -->
 
 
-    <!-- Services 2 Section -->
-    <section id="services-2" class="services-2 section dark-background">
-        <!-- Titre de la section -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Our Services</h2>
-            <p>
-                Discover our wide range of solutions designed to meet your agricultural and environmental needs.
+    <!-- Services Section for Kilimanjaro -->
+    <section id="services-2" class="services-2 section bg-black text-white">
+        <div class="container text-center section-title" data-aos="fade-up">
+            <h2 class="text-uppercase mb-3">Our Core Services</h2>
+            <p class="mb-5">
+                At Kilimanjaro General Service Sarl, we provide a wide range of reliable, innovative, and professional
+                subcontracting services across multiple sectors.
             </p>
         </div>
-        <!-- Fin Titre de la section -->
 
         <div class="services-carousel-wrap">
             <div class="container">
                 <div class="swiper init-swiper">
-                    <!-- Configuration du Swiper -->
+
                     <script type="application/json" class="swiper-config">
                         {
                             "loop": true,
@@ -553,120 +554,116 @@
                             }
                         }
                     </script>
-                    <!-- Fin configuration du Swiper -->
 
-                    <!-- Boutons de navigation -->
-                    <button class="navigation-prev js-custom-prev">
-                        <i class="bi bi-arrow-left-short"></i>
-                    </button>
-                    <button class="navigation-next js-custom-next">
-                        <i class="bi bi-arrow-right-short"></i>
-                    </button>
-                    <!-- Fin Boutons de navigation -->
+                    <button class="navigation-prev js-custom-prev"><i class="bi bi-arrow-left-short"></i></button>
+                    <button class="navigation-next js-custom-next"><i class="bi bi-arrow-right-short"></i></button>
 
-                    <!-- Conteneur des slides -->
                     <div class="swiper-wrapper">
-                        <!-- Slide 1 : Planting -->
+
+                        <!-- Génie Civil -->
                         <div class="swiper-slide">
-                            <div class="service-item">
-                                <div class="service-item-contents">
-                                    <a href="#">
-                                        <span class="service-item-category">Our Expertise</span>
-                                        <h2 class="service-item-title">Planting</h2>
-                                    </a>
+                            <div class="service-item bg-dark text-white p-3">
+                                <div class="service-item-contents mb-3 text-center">
+                                    <span class="service-item-category small d-block">Infrastructure</span>
+                                    <h3 class="service-item-title fs-5 text-uppercase">Civil Engineering</h3>
                                 </div>
-                                <img src="assets/img/img_sq_1.jpg" alt="Planting service" class="img-fluid">
+                                <img src="assets/img/equipment.jpg" alt="Civil Engineering" class="img-fluid w-100"
+                                     style="height: 220px; object-fit: cover;">
                             </div>
                         </div>
 
-                        <!-- Slide 2 : Mulching -->
+                        <!-- Ingénierie & Maintenance -->
                         <div class="swiper-slide">
-                            <div class="service-item">
-                                <div class="service-item-contents">
-                                    <a href="#">
-                                        <span class="service-item-category">Our Expertise</span>
-                                        <h2 class="service-item-title">Mulching</h2>
-                                    </a>
+                            <div class="service-item bg-dark text-white p-3">
+                                <div class="service-item-contents mb-3 text-center">
+                                    <span class="service-item-category small d-block">Technical Services</span>
+                                    <h3 class="service-item-title fs-5 text-uppercase">Engineering & Maintenance</h3>
                                 </div>
-                                <img src="assets/img/img_sq_3.jpg" alt="Mulching service" class="img-fluid">
+                                <img src="assets/img/maintenance.jpg" alt="Maintenance" class="img-fluid w-100"
+                                     style="height: 220px; object-fit: cover;">
                             </div>
                         </div>
 
-                        <!-- Slide 3 : Watering -->
+                        <!-- Agriculture -->
                         <div class="swiper-slide">
-                            <div class="service-item">
-                                <div class="service-item-contents">
-                                    <a href="#">
-                                        <span class="service-item-category">Our Expertise</span>
-                                        <h2 class="service-item-title">Watering</h2>
-                                    </a>
+                            <div class="service-item bg-dark text-white p-3">
+                                <div class="service-item-contents mb-3 text-center">
+                                    <span class="service-item-category small d-block">Agro Services</span>
+                                    <h3 class="service-item-title fs-5 text-uppercase">Agriculture & Development</h3>
                                 </div>
-                                <img src="assets/img/img_sq_8.jpg" alt="Watering service" class="img-fluid">
+                                <img src="assets/img/about-3.jpg" alt="Agriculture" class="img-fluid w-100"
+                                     style="height: 220px; object-fit: cover;">
                             </div>
                         </div>
 
-                        <!-- Slide 4 : Fertilizing -->
+                        <!-- Logistique -->
                         <div class="swiper-slide">
-                            <div class="service-item">
-                                <div class="service-item-contents">
-                                    <a href="#">
-                                        <span class="service-item-category">Our Expertise</span>
-                                        <h2 class="service-item-title">Fertilizing</h2>
-                                    </a>
+                            <div class="service-item bg-dark text-white p-3">
+                                <div class="service-item-contents mb-3 text-center">
+                                    <span class="service-item-category small d-block">Logistics</span>
+                                    <h3 class="service-item-title fs-5 text-uppercase">Supply & Transport</h3>
                                 </div>
-                                <img src="assets/img/img_sq_4.jpg" alt="Fertilizing service" class="img-fluid">
+                                <img src="assets/img/container.jpg" alt="Logistics" class="img-fluid w-100"
+                                     style="height: 220px; object-fit: cover;">
                             </div>
                         </div>
 
-                        <!-- Slide 5 : Harvesting -->
+                        <!-- Nettoyage industriel -->
                         <div class="swiper-slide">
-                            <div class="service-item">
-                                <div class="service-item-contents">
-                                    <a href="#">
-                                        <span class="service-item-category">Our Expertise</span>
-                                        <h2 class="service-item-title">Harvesting</h2>
-                                    </a>
+                            <div class="service-item bg-dark text-white p-3">
+                                <div class="service-item-contents mb-3 text-center">
+                                    <span class="service-item-category small d-block">Industrial Hygiene</span>
+                                    <h3 class="service-item-title fs-5 text-uppercase">Cleaning Services</h3>
                                 </div>
-                                <img src="assets/img/img_sq_5.jpg" alt="Harvesting service" class="img-fluid">
+                                <img src="assets/img/hero_5.jpg" alt="Cleaning" class="img-fluid w-100"
+                                     style="height: 220px; object-fit: cover;">
                             </div>
                         </div>
 
-                        <!-- Slide 6 : Mowing -->
+                        <!-- Sécurité -->
                         <div class="swiper-slide">
-                            <div class="service-item">
-                                <div class="service-item-contents">
-                                    <a href="#">
-                                        <span class="service-item-category">Our Expertise</span>
-                                        <h2 class="service-item-title">Mowing</h2>
-                                    </a>
+                            <div class="service-item bg-dark text-white p-3">
+                                <div class="service-item-contents mb-3 text-center">
+                                    <span class="service-item-category small d-block">Security</span>
+                                    <h3 class="service-item-title fs-5 text-uppercase">Security & Guarding</h3>
                                 </div>
-                                <img src="assets/img/img_sq_6.jpg" alt="Mowing service" class="img-fluid">
+                                <img src="assets/img/barbed.jpg" alt="Security" class="img-fluid w-100"
+                                     style="height: 220px; object-fit: cover;">
                             </div>
                         </div>
 
-                        <!-- Slide 7 : Seeding Plants -->
+                        <!-- SIG & Cartographie -->
                         <div class="swiper-slide">
-                            <div class="service-item">
-                                <div class="service-item-contents">
-                                    <a href="#">
-                                        <span class="service-item-category">Our Expertise</span>
-                                        <h2 class="service-item-title">Seeding Plants</h2>
-                                    </a>
+                            <div class="service-item bg-dark text-white p-3">
+                                <div class="service-item-contents mb-3 text-center">
+                                    <span class="service-item-category small d-block">Technology</span>
+                                    <h3 class="service-item-title fs-5 text-uppercase">GIS & Mapping</h3>
                                 </div>
-                                <img src="assets/img/img_sq_8.jpg" alt="Seeding service" class="img-fluid">
+                                <img src="assets/img/hero_4.jpg" alt="GIS" class="img-fluid w-100"
+                                     style="height: 220px; object-fit: cover;">
                             </div>
                         </div>
+
+                        <!-- Environnement & Social -->
+                        <div class="swiper-slide">
+                            <div class="service-item bg-dark text-white p-3">
+                                <div class="service-item-contents mb-3 text-center">
+                                    <span class="service-item-category small d-block">Sustainability</span>
+                                    <h3 class="service-item-title fs-5 text-uppercase">Environmental & Social
+                                        Impact</h3>
+                                </div>
+                                <img src="assets/img/environment.jpg" alt="Environment" class="img-fluid w-100"
+                                     style="height: 220px; object-fit: cover;">
+                            </div>
+                        </div>
+
                     </div>
-                    <!-- Fin conteneur des slides -->
 
-                    <!-- Pagination du carousel -->
-                    <div class="swiper-pagination"></div>
+                    <div class="swiper-pagination mt-4"></div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Fin Services 2 Section -->
-
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials-12 testimonials section bg-light">
