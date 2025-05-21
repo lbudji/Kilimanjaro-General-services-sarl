@@ -267,7 +267,7 @@ h6 {
   .navmenu a:focus {
     color: var(--nav-color);
     padding: 18px 15px;
-    font-size: 16px;
+    font-size: 18px;
     font-family: var(--nav-font);
     font-weight: 400;
     display: flex;
@@ -398,9 +398,6 @@ h6 {
   }
 
   /* Active mobile state */
-  .mobile-nav-active {
-    overflow: hidden;
-  }
 
   .mobile-nav-active .mobile-nav-toggle {
     position: absolute;
@@ -413,8 +410,7 @@ h6 {
 
   .mobile-nav-active .navmenu {
     position: fixed;
-    inset: 0;
-    background: rgba(33, 37, 41, 0.85);
+    inset: 50;
     transition: all 0.3s ease;
     overflow: hidden;
   }
