@@ -2,11 +2,12 @@
   "use strict";
 
   /**
-   * Apply .scrolled class to the body as the page is scrolled down
+   * Ajoute la classe .scrolled au body lors du scroll
    */
   function toggleScrolled() {
     const selectBody   = document.querySelector('body');
     const selectHeader = document.querySelector('#header');
+    if (!selectHeader) return;
     if (
       !selectHeader.classList.contains('scroll-up-sticky') &&
       !selectHeader.classList.contains('sticky-top') &&
@@ -23,7 +24,7 @@
   let lastScrollTop = 0;
   function handleStickyHeader() {
     const selectHeader = document.querySelector('#header');
-    if (!selectHeader.classList.contains('scroll-up-sticky')) return;
+    if (!selectHeader || !selectHeader.classList.contains('scroll-up-sticky')) return;
     const st = window.pageYOffset || document.documentElement.scrollTop;
     if (st > lastScrollTop && st > selectHeader.offsetHeight) {
       selectHeader.style.setProperty('position', 'sticky', 'important');
@@ -39,20 +40,30 @@
   }
 
   /**
-   * Mobile nav toggle
+   * Mobile nav toggle (accessibilité améliorée)
    */
-  const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
   function mobileNavToggle() {
     document.body.classList.toggle('mobile-nav-active');
-    mobileNavToggleBtn.classList.toggle('bi-list');
-    mobileNavToggleBtn.classList.toggle('bi-x');
+    const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
+    if (mobileNavToggleBtn) {
+      mobileNavToggleBtn.classList.toggle('bi-list');
+      mobileNavToggleBtn.classList.toggle('bi-x');
+      // Accessibilité : aria-expanded
+      const expanded = document.body.classList.contains('mobile-nav-active');
+      mobileNavToggleBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    }
+    // Focus sur le premier lien du menu mobile
+    if (document.body.classList.contains('mobile-nav-active')) {
+      const firstLink = document.querySelector('#navmenu a');
+      if (firstLink) firstLink.focus();
+    }
   }
 
   /**
    * Service modals
    */
   function initServiceModals() {
-    document.querySelectorAll('.service-item').forEach(item => {
+    document.querySelectorAll('.service-item[data-service-title]').forEach(item => {
       item.addEventListener('click', function() {
         const data  = this.closest('[data-service-title]').dataset;
         const modal = new bootstrap.Modal(document.getElementById('serviceModal'));
@@ -69,6 +80,21 @@
             </div>
           `).join('');
         modal.show();
+        // Focus accessibilité sur la fermeture
+        setTimeout(() => {
+          document.getElementById('serviceModal').querySelector('.btn-close').focus();
+        }, 300);
+      });
+    });
+  }
+
+  /**
+   * Enregistrement du service worker pour PWA
+   */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(() => {
+        // Optionnel : afficher une erreur ou log
       });
     });
   }
@@ -83,7 +109,13 @@
     window.addEventListener('load', toggleScrolled);
 
     // 2) Mobile nav
-    mobileNavToggleBtn.addEventListener('click', mobileNavToggle);
+    const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
+    if (mobileNavToggleBtn) {
+      // Accessibilité : aria-controls et aria-expanded
+      mobileNavToggleBtn.setAttribute('aria-controls', 'navmenu');
+      mobileNavToggleBtn.setAttribute('aria-expanded', 'false');
+      mobileNavToggleBtn.addEventListener('click', mobileNavToggle);
+    }
     document.querySelectorAll('#navmenu a').forEach(link => {
       link.addEventListener('click', () => {
         if (document.body.classList.contains('mobile-nav-active')) mobileNavToggle();
@@ -116,12 +148,15 @@
 
     // 5) AOS
     window.addEventListener('load', () => {
-      AOS.init({ duration:600, easing:'ease-in-out', once:true, mirror:false });
+      if (window.AOS) {
+        AOS.init({ duration:600, easing:'ease-in-out', once:true, mirror:false });
+      }
     });
 
     // 6) Carousel indicators
     document.querySelectorAll('.carousel-indicators').forEach(indicators => {
       const carousel = indicators.closest('.carousel');
+      if (!carousel) return;
       carousel.querySelectorAll('.carousel-item').forEach((_, i) => {
         indicators.innerHTML += `<li data-bs-target="#${carousel.id}" data-bs-slide-to="${i}"${i===0?' class="active"':''}></li>`;
       });
@@ -130,38 +165,81 @@
     // 7) Swiper
     function initSwiper() {
       document.querySelectorAll('.init-swiper').forEach(sw => {
-        const cfg = JSON.parse(sw.querySelector('.swiper-config').textContent.trim());
-        if (sw.classList.contains('swiper-tab')) initSwiperWithCustomPagination(sw, cfg);
-        else new Swiper(sw, cfg);
+        const configEl = sw.querySelector('.swiper-config');
+        if (!configEl) return;
+        const cfg = JSON.parse(configEl.textContent.trim());
+        if (typeof Swiper === 'undefined') {
+          // Affiche une erreur si Swiper n'est pas chargé
+          console.error('Swiper library is not loaded!');
+          return;
+        }
+        new Swiper(sw, cfg);
       });
     }
     window.addEventListener('load', initSwiper);
 
     // 8) GLightbox
-    GLightbox({ selector: '.glightbox' });
+    if (typeof GLightbox !== 'undefined') {
+      GLightbox({ selector: '.glightbox' });
+    } else {
+      // Affiche une erreur si GLightbox n'est pas chargé
+      console.error('GLightbox library is not loaded!');
+    }
 
-    // 9) **Theme toggle** (Dark/Light Mode)
+    // 9) Theme toggle (Dark/Light Mode)
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon   = document.getElementById('theme-icon');
     const bodyEl      = document.body;
-    // Init from localStorage
+
+    // Fonction pour appliquer le thème selon l'heure (soir = sombre)
+    function autoDarkMode() {
+      const hour = new Date().getHours();
+      if (!localStorage.getItem('theme')) {
+        if (hour >= 19 || hour < 7) {
+          bodyEl.classList.add('dark-mode');
+          if (themeIcon) themeIcon.classList.replace('bi-sun-fill', 'bi-moon-fill');
+        } else {
+          bodyEl.classList.remove('dark-mode');
+          if (themeIcon) themeIcon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+        }
+      }
+    }
+
+    // Applique le thème sauvegardé ou auto
     if (localStorage.getItem('theme') === 'dark') {
       bodyEl.classList.add('dark-mode');
-      themeIcon.classList.replace('bi-sun-fill','bi-moon-fill');
+      if (themeIcon) themeIcon.classList.replace('bi-sun-fill', 'bi-moon-fill');
+    } else if (localStorage.getItem('theme') === 'light') {
+      bodyEl.classList.remove('dark-mode');
+      if (themeIcon) themeIcon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+    } else {
+      autoDarkMode();
     }
-    themeToggle.addEventListener('click', () => {
-      const isDark = bodyEl.classList.toggle('dark-mode');
-      themeIcon.classList.replace(
-        isDark ? 'bi-sun-fill'  : 'bi-moon-fill',
-        isDark ? 'bi-moon-fill' : 'bi-sun-fill'
-      );
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    });
+
+    // Bouton toggle
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const isDark = bodyEl.classList.toggle('dark-mode');
+        if (themeIcon) {
+          themeIcon.classList.replace(
+            isDark ? 'bi-sun-fill' : 'bi-moon-fill',
+            isDark ? 'bi-moon-fill' : 'bi-sun-fill'
+          );
+        }
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      });
+    }
+
+    // Optionnel : réappliquer autoDarkMode à chaque chargement
+    window.addEventListener('load', autoDarkMode);
 
     // 10) Language switch
-    document.getElementById('language-select').addEventListener('change', e => {
-      window.location.href = e.target.value === 'fr' ? 'index.html' : 'index.html';
-    });
+    const langSelect = document.getElementById('language-select');
+    if (langSelect) {
+      langSelect.addEventListener('change', e => {
+        window.location.href = e.target.value === 'fr' ? 'index.html' : 'index.html';
+      });
+    }
 
     // 11) Service Modals
     initServiceModals();
